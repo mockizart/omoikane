@@ -41,4 +41,13 @@ interface BaseRepository {
      */
     public function delete(Array $id);
 
+    /**
+     * Find with where like query
+     *
+     * @param $field
+     * @param $value
+     * @return mixed
+     */
+    public function findWhereLike($field, $value);
+
 }

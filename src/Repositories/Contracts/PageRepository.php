@@ -64,4 +64,24 @@ interface PageRepository extends BasePostRepository{
      * @return mixed
      */
     public function deletePage(array $id);
+
+    /**
+     * get paginated page
+     *
+     * @param $keyword
+     * @param $path
+     * @param $limit
+     * @param $orderBy
+     * @param $order
+     * @return mixed
+     */
+    public function paginatePage($keyword, $path, $limit, $orderBy, $order);
+
+    /**
+     * Find a page title like
+     *
+     * @param $keyword
+     * @return mixed
+     */
+    public function findTitlePageLike($keyword);
 }

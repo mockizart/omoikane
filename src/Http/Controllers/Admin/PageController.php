@@ -43,7 +43,7 @@ class PageController extends Controller{
     public function autoComplete(Request $request)
     {
         $keyword        = $request->input('keyword', '');
-        $data           = $this->pageRepository->autoComplete($keyword);
+        $data           = $this->pageRepository->findTitlePageLike($keyword);
         $return = response()->json($data);
 
         return $return;

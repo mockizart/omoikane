@@ -14,9 +14,9 @@ use Omoikane\Repositories\Contracts\BasePostRepository as Contract;
 
 abstract class BasePostRepository extends BaseRepository implements Contract {
 
-    public function autoComplete($keyword)
+    public function findTitlePostLike($keyword)
     {
-        return $this->model->whereRaw('title like ?', ["%".$keyword."%"])->get();
+        return $this->findWhereLike('title', '%' . $keyword . '%');
     }
 
     public function findPostBySlug($slug)
@@ -24,7 +24,7 @@ abstract class BasePostRepository extends BaseRepository implements Contract {
         return $this->findByField('slug', $slug)->first();
     }
 
-    public function pagination($keyword, $limit, $orderBy, $order)
+    public function pagination($keyword, $path, $limit, $orderBy, $order)
     {
         $data = $this->model
             ->whereRaw("title like ?", ["%".$keyword."%"]);
@@ -35,7 +35,7 @@ abstract class BasePostRepository extends BaseRepository implements Contract {
             $data->orderBy($orderBy, $order);
         }
 
-        return $data->paginate($limit);
+        return $data->paginate($limit)->withPath($path);
     }
 
 }

@@ -13,7 +13,7 @@ namespace Omoikane\Repositories;
 use Omoikane\Models\Page;
 use Omoikane\Repositories\Contracts\PageRepository as PageRepositoryContract;
 
-class PageRepository extends BasePostRepository implements PageRepositoryContract{
+final class PageRepository extends BasePostRepository implements PageRepositoryContract{
 
     protected $model;
 
@@ -66,4 +66,13 @@ class PageRepository extends BasePostRepository implements PageRepositoryContrac
         return $this->delete($id);
     }
 
+    public function paginatePage($keyword, $path, $limit, $orderBy, $order)
+    {
+        return $this->pagination($keyword, $path,  $limit, $orderBy, $order);
+    }
+
+    public function findTitlePageLike($keyword)
+    {
+        return parent::findTitlePostLike($keyword);
+    }
 }

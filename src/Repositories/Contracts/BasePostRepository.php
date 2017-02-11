@@ -14,6 +14,14 @@ namespace Omoikane\Repositories\Contracts;
 interface BasePostRepository {
 
     /**
+     * Find title where like
+     *
+     * @param $keyword
+     * @return mixed
+     */
+    public function findTitlePostLike($keyword);
+
+    /**
      * Find a post by slug
      *
      * @param $slug
@@ -25,11 +33,12 @@ interface BasePostRepository {
      * Get paginated data post
      *
      * @param $keyword
+     * @param $path
      * @param $limit
      * @param $orderBy
      * @param $order
      * @return mixed
      */
-    public function pagination($keyword, $limit, $orderBy, $order);
+    public function pagination($keyword, $path, $limit, $orderBy, $order);
 
 }
