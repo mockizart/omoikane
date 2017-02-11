@@ -1,0 +1,60 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * Email: rifkimuhammad89@gmail.com
+ * Website: mockie.net
+ * User: mockie
+ * Date: 31/01/17
+ * Time: 10:55
+ */
+
+namespace Omoikane\Repositories\Contracts;
+
+
+interface PageRepository extends BasePostRepository{
+
+    /**
+     * Find a page by id
+     *
+     * @param $id
+     * @return mixed
+     */
+    public function findPageById($id);
+
+    /**
+     * Find a page by slug
+     *
+     * @param $slug
+     * @return mixed
+     */
+    public function findPageBySlug($slug);
+
+    /**
+     * Create new page
+     *
+     * @param $userId
+     * @param int $status
+     * @param $title
+     * @param $slug
+     * @param string $keyword
+     * @param $body
+     * @param string $description
+     * @return mixed
+     */
+    public function create($userId, $status = 0, $title, $slug, $keyword = '', $body, $description = '');
+
+    /**
+     * Update a page
+     *
+     * @param $pageId
+     * @param string $status
+     * @param string $title
+     * @param string $slug
+     * @param string $keyword
+     * @param string $body
+     * @param string $description
+     * @return mixed
+     */
+    public function update($pageId, $status = '', $title = '', $slug = '', $keyword = '', $body = '', $description = '');
+
+}
