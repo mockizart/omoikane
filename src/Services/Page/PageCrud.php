@@ -28,7 +28,7 @@ class PageCrud implements PageCrudContract {
 
     public function create($status, $title, $slug, $keyword = '', $body, $description = '')
     {
-        $save = $this->pageRepository->create(
+        $save = $this->pageRepository->addPage(
             Auth::id(),
             $status,
             $title,
@@ -48,7 +48,7 @@ class PageCrud implements PageCrudContract {
 
     public function update($pageId, $status, $title, $slug, $keyword = '', $body, $description = '')
     {
-        $updated = $this->pageRepository->update(
+        $updated = $this->pageRepository->updatePage(
             $pageId,
             $status,
             $title,
@@ -68,7 +68,7 @@ class PageCrud implements PageCrudContract {
 
     public function delete(Array $id)
     {
-        $deleted = $this->pageRepository->delete($id);
+        $deleted = $this->pageRepository->deletePage($id);
 
         if ($deleted) {
             event(new PageDeleted($deleted));

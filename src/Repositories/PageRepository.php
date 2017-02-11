@@ -22,40 +22,36 @@ class PageRepository extends BasePostRepository implements PageRepositoryContrac
         $this->model = $page;
     }
 
-    public function autoComplete($keyword)
-    {
-        return $this->model->whereRaw('title like ?', ["%".$keyword."%"])->get();
-    }
-
-
     public function findPageById($id)
     {
-        return $this->findPostById($id);
+        return $this->findById($id);
     }
 
     public function findPageBySlug($slug)
     {
-        return $this->model->where('slug', $slug)->first();
+        return $this->findPostBySlug($slug);
     }
 
-    public function create($userId, $status = 0, $title, $slug, $keyword = '', $body, $description = '')
+    public function addPage($userId, $status = 0, $title, $slug, $keyword = '', $body, $description = '')
     {
-        $this->model->user_id            = $userId;
-        $this->model->status             = $status;
-        $this->model->title              = $title;
-        $this->model->slug               = (empty($slug)) ? $title : $slug;
-        $this->model->meta_keyword       = $keyword;
-        $this->model->body               = $body;
-        $this->model->meta_description   = $description;
+        $data = $this->getNewModel();
+        
+        $data->user_id            = $userId;
+        $data->status             = $status;
+        $data->title              = $title;
+        $data->slug               = (empty($slug)) ? $title : $slug;
+        $data->meta_keyword       = $keyword;
+        $data->body               = $body;
+        $data->meta_description   = $description;
 
-        return ($this->model->save()) ? $this->model : false;
+        return ($data->save()) ? $data : false;
     }
 
-    public function update($pageId, $status = '', $title = '', $slug = '', $keyword = '', $body = '', $description = '')
+    public function updatePage($pageId, $status = '', $title = '', $slug = '', $keyword = '', $body = '', $description = '')
     {
-        $post = $this->findPostById($pageId);
+        $post = $this->findPageById($pageId);
 
-        $post->status              = ($status==null) ? $post->status : $status;
+        $post->status             = ($status==null) ? $post->status : $status;
         $post->title              = (empty($title)) ? $post->title : $title;
         $post->slug               = (empty($slug)) ? $post->slug : $slug;
         $post->meta_keyword       = (empty($keyword)) ? $post->meta_keyword : $keyword;
@@ -63,6 +59,11 @@ class PageRepository extends BasePostRepository implements PageRepositoryContrac
         $post->meta_description   = (empty($description)) ? $post->meta_description : $description;
 
         return ($post->save()) ? $post : false;
+    }
+
+    public function deletePage(array $id)
+    {
+        return $this->delete($id);
     }
 
 }

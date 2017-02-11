@@ -10,18 +10,18 @@
 
 namespace Omoikane\Repositories;
 
-abstract class BasePostRepository implements \Omoikane\Repositories\Contracts\BasePostRepository{
+use Omoikane\Repositories\Contracts\BasePostRepository as Contract;
 
-    protected $model;
+abstract class BasePostRepository extends BaseRepository implements Contract {
 
-    public function getModel()
+    public function autoComplete($keyword)
     {
-        return $this->model;
+        return $this->model->whereRaw('title like ?', ["%".$keyword."%"])->get();
     }
 
-    public function findPostById($id)
+    public function findPostBySlug($slug)
     {
-        return $this->model->find($id);
+        return $this->findByField('slug', $slug)->first();
     }
 
     public function pagination($keyword, $limit, $orderBy, $order)
@@ -36,19 +36,6 @@ abstract class BasePostRepository implements \Omoikane\Repositories\Contracts\Ba
         }
 
         return $data->paginate($limit);
-    }
-
-    public function delete(Array $id)
-    {
-        $data = $this->model->whereIn('id', $id);
-        $cacheDeletedPost = $data->get();
-        $delete = $data->delete();
-
-        if ($delete) {
-            return $cacheDeletedPost;
-        }
-
-        return false;
     }
 
 }
