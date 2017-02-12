@@ -75,7 +75,7 @@ class CategoryCrud implements CategoryCrudContract {
 
         $idToRemove = array_merge($idToRemove, [$data->id]);
 
-        $this->categoryRepository->deletePage($idToRemove);
+        $this->categoryRepository->deleteCategory($idToRemove);
     }
 
 }
