@@ -25,7 +25,7 @@ interface CategoryRepository {
      * @param $description
      * @return mixed
      */
-    public function create($userId, $parentId, $title, $slug, $keyword, $body, $description);
+    public function addCategory($userId, $parentId, $title, $slug, $keyword, $body, $description);
 
     /**
      * Update category
@@ -39,7 +39,7 @@ interface CategoryRepository {
      * @param $description
      * @return mixed
      */
-    public function update($pageId, $parentId, $title, $slug, $keyword, $body, $description);
+    public function updateCategory($pageId, $parentId, $title, $slug, $keyword, $body, $description);
 
     /**
      * Delete one or more categories
@@ -47,7 +47,7 @@ interface CategoryRepository {
      * @param array $id
      * @return mixed
      */
-    public function delete(Array $id);
+    public function deleteCategory(Array $id);
 
     /**
      * Find a category by id
@@ -71,7 +71,7 @@ interface CategoryRepository {
      * @param int $parentId
      * @return mixed
      */
-    public function getCategories($parentId = 0);
+    public function getCategoriesByParentId($parentId = 0);
 
     /**
      * Increase or decrease the number of article in a category.

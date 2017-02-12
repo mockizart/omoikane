@@ -22,24 +22,14 @@ class CategoryRepository extends BasePostRepository implements CategoryRepositor
         $this->model = $category;
     }
 
-    public function getModel()
-    {
-        return $this->model;
-    }
-
-    public function autoComplete($keyword)
-    {
-        return $this->model->whereRaw('title like ?', ["%".$keyword."%"])->get();
-    }
-
     public function findCategoryById($id)
     {
-        return $this->model->find($id);
+        return $this->findById($id);
     }
 
     public function findCategoryBySlug($slug)
     {
-        return $this->model->where('slug', $slug)->first();
+        return $this->findPostBySlug($slug);
     }
 
     protected function findCategoriesById(Array $id)
@@ -49,28 +39,30 @@ class CategoryRepository extends BasePostRepository implements CategoryRepositor
         return $data;
     }
 
-    public function getCategories($parentId = 0)
+    public function getCategoriesByParentId($parentId = 0)
     {
         $data = $this->model->where('parent_id', $parentId)->get();
 
         return $data;
     }
 
-    public function create($userId, $parentId, $title, $slug, $keyword, $body, $description)
+    public function addCategory($userId, $parentId, $title, $slug, $keyword, $body, $description)
     {
-        $this->model->user_id            = $userId;
-        $this->model->parent_id          = $parentId;
-        $this->model->title              = $title;
-        $this->model->slug               = $slug;
-        $this->model->meta_keyword       = $keyword;
-        $this->model->body               = $body;
-        $this->model->meta_description   = $description;
-        $this->model->article_counter    = 0;
+        $data = $this->getNewModel();
+        
+        $data->user_id            = $userId;
+        $data->parent_id          = $parentId;
+        $data->title              = $title;
+        $data->slug               = $slug;
+        $data->meta_keyword       = $keyword;
+        $data->body               = $body;
+        $data->meta_description   = $description;
+        $data->article_counter    = 0;
 
-        $this->model->save();
+        return ($data->save()) ? $data : false;
     }
 
-    public function update($categoryId, $parentId, $title, $slug, $keyword, $body, $description)
+    public function updateCategory($categoryId, $parentId, $title, $slug, $keyword, $body, $description)
     {
         $category = $this->findCategoryById($categoryId);
 
@@ -81,7 +73,7 @@ class CategoryRepository extends BasePostRepository implements CategoryRepositor
         $category->body               = (empty($body)) ? $category->body : $body;
         $category->meta_description   = (empty($description)) ? $category->meta_description : $description;
 
-        $category->save();
+        return ($category->save()) ? $category : false;
     }
 
     public function articleCounter(Array $id, $increase = true)
@@ -93,6 +85,11 @@ class CategoryRepository extends BasePostRepository implements CategoryRepositor
         } else {
             $category->decrement('article_counter');
         }
+    }
+
+    public function deleteCategory(array $id)
+    {
+        return $this->delete($id);
     }
 
 }
