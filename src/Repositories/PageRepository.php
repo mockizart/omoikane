@@ -71,8 +71,8 @@ final class PageRepository extends BasePostRepository implements PageRepositoryC
         return $this->pagination($keyword, $path,  $limit, $orderBy, $order);
     }
 
-    public function findTitlePageLike($keyword)
+    public function findPageTitleLike($keyword)
     {
-        return parent::findTitlePostLike($keyword);
+        return parent::findPostTitleLike($keyword);
     }
 }

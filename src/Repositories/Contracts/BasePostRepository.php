@@ -19,7 +19,7 @@ interface BasePostRepository {
      * @param $keyword
      * @return mixed
      */
-    public function findTitlePostLike($keyword);
+    public function findPostTitleLike($keyword);
 
     /**
      * Find a post by slug

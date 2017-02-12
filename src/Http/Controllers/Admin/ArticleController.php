@@ -65,7 +65,7 @@ class ArticleController extends Controller{
     public function autoComplete(Request $request)
     {
         $keyword        = $request->input('keyword', '');
-        $data           = $this->articleRepository->autoComplete($keyword);
+        $data           = $this->articleRepository->findArticleTitleLike($keyword);
         $return = response()->json($data);
 
         return $return;

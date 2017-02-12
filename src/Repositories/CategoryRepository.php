@@ -92,4 +92,9 @@ class CategoryRepository extends BasePostRepository implements CategoryRepositor
         return $this->delete($id);
     }
 
+    public function findCategoryTitleLike($keyword)
+    {
+        return $this->findPostTitleLike($keyword);
+    }
+
 }

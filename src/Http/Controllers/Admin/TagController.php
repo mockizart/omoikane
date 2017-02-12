@@ -124,7 +124,7 @@ class TagController extends Controller{
     public function autoComplete(Request $request)
     {
         $keyword        = $request->input('keyword', '');
-        $data           = $this->tagRepository->autoComplete($keyword);
+        $data           = $this->tagRepository->findTagTitleLike($keyword);
         $return = response()->json($data);
 
         return $return;

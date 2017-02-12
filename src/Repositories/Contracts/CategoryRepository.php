@@ -81,4 +81,12 @@ interface CategoryRepository {
      * @return mixed
      */
     public function articleCounter(Array $id, $increase = true);
+
+    /**
+     * Find category title using where like
+     *
+     * @param $keyword
+     * @return mixed
+     */
+    public function findCategoryTitleLike($keyword);
 }

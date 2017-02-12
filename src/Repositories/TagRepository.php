@@ -85,4 +85,9 @@ class TagRepository extends BasePostRepository implements TagRepositoryContract{
         return $this->delete($id);
     }
 
+    public function findTagTitleLike($keyword)
+    {
+        return parent::findPostTitleLike($keyword);
+    }
+
 }

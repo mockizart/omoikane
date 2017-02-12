@@ -14,7 +14,7 @@ use Omoikane\Repositories\Contracts\BasePostRepository as Contract;
 
 abstract class BasePostRepository extends BaseRepository implements Contract {
 
-    public function findTitlePostLike($keyword)
+    public function findPostTitleLike($keyword)
     {
         return $this->findWhereLike('title', '%' . $keyword . '%');
     }

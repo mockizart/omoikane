@@ -83,5 +83,5 @@ interface PageRepository extends BasePostRepository{
      * @param $keyword
      * @return mixed
      */
-    public function findTitlePageLike($keyword);
+    public function findPageTitleLike($keyword);
 }

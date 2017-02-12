@@ -92,4 +92,12 @@ interface TagRepository extends BasePostRepository{
      * @return mixed
      */
     public function deleteTag(array $id);
+
+    /**
+     * Find tag title like
+     *
+     * @param $keyword
+     * @return mixed
+     */
+    public function findTagTitleLike($keyword);
 }
