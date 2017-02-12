@@ -30,6 +30,15 @@ interface TagRepository extends BasePostRepository{
     public function findTagBySlug($slug);
 
     /**
+     * Find tags by Id
+     *
+     * @param array $id
+     * @param bool $getResult
+     * @return mixed
+     */
+    public function findTagsById(Array $id, $getResult = false);
+
+    /**
      * Create new tag
      *
      * @param $userId
@@ -40,7 +49,7 @@ interface TagRepository extends BasePostRepository{
      * @param string $description
      * @return mixed
      */
-    public function create($userId, $title, $slug, $keyword = '', $body, $description = '');
+    public function addTag($userId, $title, $slug, $keyword = '', $body, $description = '');
 
     /**
      * Update tag
@@ -53,7 +62,7 @@ interface TagRepository extends BasePostRepository{
      * @param string $description
      * @return mixed
      */
-    public function update($tagId, $title = '', $slug = '', $keyword = '', $body = '', $description = '');
+    public function updateTag($tagId, $title = '', $slug = '', $keyword = '', $body = '', $description = '');
 
     /**
      * Increase or decrease article counter
@@ -63,4 +72,32 @@ interface TagRepository extends BasePostRepository{
      * @return mixed
      */
     public function articleCounter(Array $id, $increase = true);
+
+    /**
+     * Get paginated tag
+     *
+     * @param $keyword
+     * @param $path
+     * @param $limit
+     * @param $orderBy
+     * @param $order
+     * @return mixed
+     */
+    public function paginateTag($keyword, $path, $limit, $orderBy, $order);
+
+    /**
+     * Delete one or more tags by id
+     *
+     * @param array $id
+     * @return mixed
+     */
+    public function deleteTag(array $id);
+
+    /**
+     * Find tag title like
+     *
+     * @param $keyword
+     * @return mixed
+     */
+    public function findTagTitleLike($keyword);
 }

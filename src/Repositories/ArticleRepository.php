@@ -27,26 +27,23 @@ class ArticleRepository extends BasePostRepository implements ArticleRepositoryC
         return $this->model->find($id);
     }
 
-    public function autoComplete($keyword)
+    public function addArticle($userId, $title, $slug, $keyword, $body, $description)
     {
-        return $this->model->whereRaw('title like ?', ["%".$keyword."%"])->get();
+        $data = $this->getNewModel();
+        
+        $data->user_id            = $userId;
+        $data->title              = $title;
+        $data->slug               = $slug;
+        $data->meta_keyword       = $keyword;
+        $data->body               = $body;
+        $data->meta_description   = $description;
+
+        return ($data->save()) ? $data : false;
     }
 
-    public function create($userId, $title, $slug, $keyword, $body, $description)
+    public function updateArticle($postId, $userId, $title, $slug, $keyword, $body, $description)
     {
-        $this->model->user_id            = $userId;
-        $this->model->title              = $title;
-        $this->model->slug               = $slug;
-        $this->model->meta_keyword       = $keyword;
-        $this->model->body               = $body;
-        $this->model->meta_description   = $description;
-
-        return ($this->model->save()) ? $this->model : false;
-    }
-
-    public function update($postId, $userId, $title, $slug, $keyword, $body, $description)
-    {
-        $post = $this->findPostById($postId);
+        $post = $this->findArticleById($postId);
 
         $post->title = (empty($title)) ? $post->title : $title;
         $post->slug = (empty($slug)) ? $post->slug : $slug;
@@ -57,4 +54,18 @@ class ArticleRepository extends BasePostRepository implements ArticleRepositoryC
         return ($post->save()) ? $post : false;
     }
 
+    public function deleteArticle(Array $id)
+    {
+        return $this->delete($id);
+    }
+
+    public function paginateArticle($keyword, $path, $limit, $orderBy, $order)
+    {
+        return $this->pagination($keyword, $path,  $limit, $orderBy, $order);
+    }
+
+    public function findArticleTitleLike($keyword)
+    {
+        return parent::findPostTitleLike($keyword);
+    }
 }

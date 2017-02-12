@@ -33,7 +33,7 @@ class ArticleCrud implements ArticleCrudContract{
 
     public function create($title, $slug, $keyword, $body, $description, Array $categories, Array $tags)
     {
-        $save = $this->articleRepository->create(
+        $save = $this->articleRepository->addArticle(
             Auth::id(),
             $title,
             (empty($slug)) ? $title : $slug,
@@ -52,7 +52,7 @@ class ArticleCrud implements ArticleCrudContract{
 
     public function update($articleId, $title, $slug, $keyword, $body, $description, Array $categories = [], Array $tags)
     {
-        $updated = $this->articleRepository->update(
+        $updated = $this->articleRepository->updateArticle(
             $articleId,
             null,
             $title,
@@ -72,7 +72,7 @@ class ArticleCrud implements ArticleCrudContract{
 
     public function delete(Array $id)
     {
-        $deletedCategories = $this->articleRepository->delete($id);
+        $deletedCategories = $this->articleRepository->deleteArticle($id);
 
         if ($deletedCategories) {
             event(new ArticleDeleted($deletedCategories));

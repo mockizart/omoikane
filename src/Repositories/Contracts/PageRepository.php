@@ -41,7 +41,7 @@ interface PageRepository extends BasePostRepository{
      * @param string $description
      * @return mixed
      */
-    public function create($userId, $status = 0, $title, $slug, $keyword = '', $body, $description = '');
+    public function addPage($userId, $status = 0, $title, $slug, $keyword = '', $body, $description = '');
 
     /**
      * Update a page
@@ -55,6 +55,33 @@ interface PageRepository extends BasePostRepository{
      * @param string $description
      * @return mixed
      */
-    public function update($pageId, $status = '', $title = '', $slug = '', $keyword = '', $body = '', $description = '');
+    public function updatePage($pageId, $status = '', $title = '', $slug = '', $keyword = '', $body = '', $description = '');
 
+    /**
+     * Delete a page
+     *
+     * @param array $id
+     * @return mixed
+     */
+    public function deletePage(array $id);
+
+    /**
+     * get paginated page
+     *
+     * @param $keyword
+     * @param $path
+     * @param $limit
+     * @param $orderBy
+     * @param $order
+     * @return mixed
+     */
+    public function paginatePage($keyword, $path, $limit, $orderBy, $order);
+
+    /**
+     * Find a page title like
+     *
+     * @param $keyword
+     * @return mixed
+     */
+    public function findPageTitleLike($keyword);
 }

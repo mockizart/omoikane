@@ -24,7 +24,7 @@ interface ArticleRepository {
      * @param $description
      * @return mixed
      */
-    public function create($userId, $title, $slug, $keyword, $body, $description);
+    public function addArticle($userId, $title, $slug, $keyword, $body, $description);
 
     /**
      * Update an article
@@ -38,7 +38,7 @@ interface ArticleRepository {
      * @param $description
      * @return mixed
      */
-    public function update($pageId, $userId, $title, $slug, $keyword, $body, $description);
+    public function updateArticle($pageId, $userId, $title, $slug, $keyword, $body, $description);
 
     /**
      * Delete an or more articles
@@ -46,7 +46,7 @@ interface ArticleRepository {
      * @param array $id
      * @return mixed
      */
-    public function delete(Array $id);
+    public function deleteArticle(Array $id);
 
     /**
      * Find one article by article ID.
@@ -60,11 +60,20 @@ interface ArticleRepository {
      * Return paginated article records.
      *
      * @param $keyword
+     * @param $path
      * @param $limit
      * @param $orderBy
      * @param $order
      * @return mixed
      */
-    public function pagination($keyword, $limit, $orderBy, $order);
+    public function paginateArticle($keyword, $path, $limit, $orderBy, $order);
+
+    /**
+     * Find article title like
+     *
+     * @param $keyword
+     * @return mixed
+     */
+    public function findArticleTitleLike($keyword);
 
 }

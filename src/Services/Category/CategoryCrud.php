@@ -29,7 +29,7 @@ class CategoryCrud implements CategoryCrudContract {
 
     public function create($parentId, $title, $slug, $keyword, $body, $description)
     {
-        $save = $this->categoryRepository->create(
+        $save = $this->categoryRepository->addCategory(
             Auth::id(),
             $parentId,
             $title,
@@ -44,7 +44,7 @@ class CategoryCrud implements CategoryCrudContract {
 
     public function update($categoryId, $parentId, $title, $slug, $keyword, $body, $description)
     {
-        $updated = $this->categoryRepository->update(
+        $updated = $this->categoryRepository->updateCategory(
             $categoryId,
             $parentId,
             $title,
@@ -75,7 +75,7 @@ class CategoryCrud implements CategoryCrudContract {
 
         $idToRemove = array_merge($idToRemove, [$data->id]);
 
-        $this->categoryRepository->delete($idToRemove);
+        $this->categoryRepository->deleteCategory($idToRemove);
     }
 
 }

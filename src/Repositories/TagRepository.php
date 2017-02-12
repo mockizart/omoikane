@@ -22,29 +22,24 @@ class TagRepository extends BasePostRepository implements TagRepositoryContract{
         $this->model = $tag;
     }
 
-    public function autoComplete($keyword)
-    {
-        return $this->model->whereRaw('title like ?', ["%".$keyword."%"])->get();
-    }
-
     public function findTagById($id)
     {
-        return $this->model->find($id);
+        return $this->findById($id);
     }
 
     public function findTagBySlug($slug)
     {
-        return $this->model->where('slug', $slug)->first();
+        return $this->findPostBySlug($slug);
     }
 
-    protected function findTagsById(Array $id)
+    public function findTagsById(Array $id, $getResult = false)
     {
         $data = $this->model->whereIn('id', $id);
 
-        return $data;
+        return (!$getResult) ? $data : $data->get();
     }
 
-    public function create($userId, $title, $slug, $keyword = '', $body, $description = '')
+    public function addTag($userId, $title, $slug, $keyword = '', $body, $description = '')
     {
         $this->model->user_id            = $userId;
         $this->model->title              = $title;
@@ -56,9 +51,9 @@ class TagRepository extends BasePostRepository implements TagRepositoryContract{
         return ($this->model->save()) ? $this->model : false;
     }
 
-    public function update($tagId, $title = '', $slug = '', $keyword = '', $body = '', $description = '')
+    public function updateTag($tagId, $title = '', $slug = '', $keyword = '', $body = '', $description = '')
     {
-        $post = $this->findPostById($tagId);
+        $post = $this->findTagById($tagId);
 
         $post->title              = (empty($title)) ? $post->title : $title;
         $post->slug               = (empty($slug)) ? $post->slug : $slug;
@@ -78,6 +73,21 @@ class TagRepository extends BasePostRepository implements TagRepositoryContract{
         } else {
             $category->decrement('article_counter');
         }
+    }
+
+    public function paginateTag($keyword, $path, $limit, $orderBy, $order)
+    {
+        return $this->pagination($keyword, $path,  $limit, $orderBy, $order);
+    }
+
+    public function deleteTag(array $id)
+    {
+        return $this->delete($id);
+    }
+
+    public function findTagTitleLike($keyword)
+    {
+        return parent::findPostTitleLike($keyword);
     }
 
 }

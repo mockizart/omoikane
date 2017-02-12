@@ -41,7 +41,7 @@ abstract class AbstractPaginatedPost implements PaginatedPost{
         return $this;
     }
 
-    protected function generatePaginatePath()
+    protected function generatePaginatedPath()
     {
         $path   = [];
         $path[] =  (!$this->keyword)?: 'q='.$this->keyword;

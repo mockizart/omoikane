@@ -13,10 +13,32 @@ namespace Omoikane\Repositories\Contracts;
 
 interface BasePostRepository {
 
-//    public function save($userId, $title, $slug, $keyword, $body, $description);
-//
-//    public function update($postId, $userId, $title, $slug, $keyword, $body, $description);
+    /**
+     * Find title where like
+     *
+     * @param $keyword
+     * @return mixed
+     */
+    public function findPostTitleLike($keyword);
 
-    public function delete(Array $id);
+    /**
+     * Find a post by slug
+     *
+     * @param $slug
+     * @return mixed
+     */
+    public function findPostBySlug($slug);
+
+    /**
+     * Get paginated data post
+     *
+     * @param $keyword
+     * @param $path
+     * @param $limit
+     * @param $orderBy
+     * @param $order
+     * @return mixed
+     */
+    public function pagination($keyword, $path, $limit, $orderBy, $order);
 
 }

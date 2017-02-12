@@ -27,7 +27,7 @@ class MenuGroupCrud implements MenuGroupContract {
 
     public function create($name, array $members = [])
     {
-        $create = $this->menuGroupRepository->create($name);
+        $create = $this->menuGroupRepository->addMenuGroup($name);
 
         if ($create) {
             event(New MenuGroupCreated($create, $members));
@@ -39,7 +39,7 @@ class MenuGroupCrud implements MenuGroupContract {
 
     public function update($menuGroupId, $name, array $members = [])
     {
-        $update = $this->menuGroupRepository->update($menuGroupId, $name);
+        $update = $this->menuGroupRepository->updateMenuGroup($menuGroupId, $name);
 
         if ($update) {
             event(New MenuGroupUpdated($update, $members));
@@ -51,7 +51,7 @@ class MenuGroupCrud implements MenuGroupContract {
 
     public function delete($id)
     {
-        $delete = $this->menuGroupRepository->delete($id);
+        $delete = $this->menuGroupRepository->deleteMenuGroup($id);
 
         if ($delete) {
             event(new MenuGroupDeleted($delete));

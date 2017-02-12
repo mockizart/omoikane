@@ -13,7 +13,7 @@ namespace Omoikane\Repositories;
 use Omoikane\Models\MenuGroup;
 use Omoikane\Repositories\Contracts\MenuGroupRepository as MenuGroupContract;
 
-class MenuGroupRepository implements MenuGroupContract {
+class MenuGroupRepository extends BaseRepository implements MenuGroupContract {
 
     protected $model;
 
@@ -22,24 +22,21 @@ class MenuGroupRepository implements MenuGroupContract {
         $this->model = $menuGroup;
     }
 
-    public function getModel()
-    {
-        return $this->model;
-    }
-
     public function findMenuGroupById($id)
     {
         return $this->model->find($id);
     }
 
-    public function create($name)
+    public function addMenuGroup($name)
     {
-        $this->model->name = $name;
+        $data = $this->getNewModel();
 
-        return ($this->model->save())  ? $this->model : false;
+        $data->name = $name;
+
+        return ($data->save())  ? $data : false;
     }
 
-    public function update($menuGroupId, $name)
+    public function updateMenuGroup($menuGroupId, $name)
     {
         $data = $this->findMenuGroupById($menuGroupId);
 
@@ -48,17 +45,17 @@ class MenuGroupRepository implements MenuGroupContract {
         return ($data->save()) ? $data : false;
     }
 
-    public function pagination($keyword, $limit, $orderBy, $order)
+    public function paginateMenuGroup($keyword, $path, $limit, $orderBy, $order)
     {
         $data = $this->model
             ->whereRaw("name like ?", ["%".$keyword."%"]);
 
         $data->orderBy($orderBy, $order);
 
-        return $data->paginate($limit);
+        return $data->paginate($limit)->withPath($path);
     }
 
-    public function delete($id)
+    public function deleteMenuGroup($id)
     {
         $data = $this->findMenuGroupById($id);
 

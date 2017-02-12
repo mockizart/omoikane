@@ -67,7 +67,7 @@ class CategoryController extends Controller{
     public function autoComplete(Request $request)
     {
         $keyword        = $request->input('keyword', '');
-        $data           = $this->categoryRepository->autoComplete($keyword);
+        $data           = $this->categoryRepository->findCategoryTitleLike($keyword);
         $return = response()->json($data);
 
         return $return;

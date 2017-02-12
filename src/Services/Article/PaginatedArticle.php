@@ -27,10 +27,10 @@ class PaginatedArticle extends AbstractPaginatedPost implements PaginatedArticle
 
     public function paginatedData($limit = 20)
     {
-        $path = $this->generatePaginatePath();
-        $data = $this->articleRepository->pagination($this->keyword, $limit, $this->orderBy, $this->order);
+        $path = $this->generatePaginatedPath();
+        $data = $this->articleRepository->paginateArticle($this->keyword, $path, $limit, $this->orderBy, $this->order);
 
-        return $data->withPath($path);
+        return $data;
     }
 
 }

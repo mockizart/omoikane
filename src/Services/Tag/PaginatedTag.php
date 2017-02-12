@@ -25,10 +25,10 @@ class PaginatedTag extends AbstractPaginatedPost implements PaginatedTagContract
 
     public function paginatedData($limit = 20)
     {
-        $path = $this->generatePaginatePath();
-        $data = $this->tagRepository->pagination($this->keyword, $limit, $this->orderBy, $this->order);
+        $path = $this->generatePaginatedPath();
+        $data = $this->tagRepository->paginateTag($this->keyword, $path, $limit, $this->orderBy, $this->order);
 
-        return $data->withPath($path);
+        return $data;
     }
 
 }

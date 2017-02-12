@@ -36,12 +36,12 @@ class CategoryList implements \RecursiveIterator, CategoryListContract {
 
     public function getCategories($parentId = 0)
     {
-        $this->categories = $this->categoryRepository->getCategories($parentId);
+        $this->categories = $this->categoryRepository->getCategoriesByParentId($parentId);
     }
 
     public function hasChildren()
     {
-       return $this->categoryRepository->getCategories($this->current()->id)->count();
+       return $this->categoryRepository->getCategoriesByParentId($this->current()->id)->count();
     }
 
     public function getChildren()

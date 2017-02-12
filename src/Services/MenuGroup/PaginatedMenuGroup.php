@@ -25,9 +25,11 @@ class PaginatedMenuGroup extends AbstractPaginatedPost implements PaginatedMenuG
 
     public function paginatedData($limit = 20)
     {
-        $path = $this->generatePaginatePath();
-        $data = $this->menuGroupRepository->pagination($this->keyword, $limit, $this->orderBy, $this->order);
+        $path = $this->generatePaginatedPath();
+        $data = $this->menuGroupRepository->paginateMenuGroup(
+            $this->keyword, $path, $limit, $this->orderBy, $this->order
+        );
 
-        return $data->withPath($path);
+        return $data;
     }
 }
