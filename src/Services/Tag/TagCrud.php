@@ -28,7 +28,7 @@ class TagCrud implements TagCrudContract {
 
     public function create($title, $slug, $keyword = '', $body, $description = '')
     {
-        $save = $this->tagRepository->create(
+        $save = $this->tagRepository->addTag(
             Auth::id(),
             $title,
             $slug,
@@ -47,7 +47,7 @@ class TagCrud implements TagCrudContract {
 
     public function update($tagId, $title, $slug, $keyword = '', $body, $description = '')
     {
-        $updated = $this->tagRepository->update(
+        $updated = $this->tagRepository->updateTag(
             $tagId,
             $title,
             $slug,
@@ -66,7 +66,7 @@ class TagCrud implements TagCrudContract {
 
     public function delete(Array $id)
     {
-        $deleted = $this->tagRepository->delete($id);
+        $deleted = $this->tagRepository->deleteTag($id);
         $cacheData = $deleted;
 
         if ($deleted) {
