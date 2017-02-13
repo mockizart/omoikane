@@ -24,3 +24,14 @@ Route::group(['namespace' => 'Omoikane\Http\Controllers\Admin', 'middleware' => 
     Route::delete('blog/admin/page/delete/{id}', ['as' => 'deletePage', 'uses' => 'PageController@destroy']);
 
 });
+
+
+Route::group(['namespace' => 'Omoikane\Http\Controllers\Frontend'], function()
+{
+
+    Route::get('blog/page/{slug}', ['as' => 'frontendPage', 'uses' => 'PageController@index']);
+
+
+});
+
+
