@@ -25,11 +25,16 @@ class MenuMemberListByGroupId implements \RecursiveIterator, Contract{
 
     protected $groupId;
 
+    protected $translateTarget = false;
+
     protected $dataArrayKeyParent;
 
-    public function __construct(MenuMemberRepository $menuMemberRepository)
+    protected $targetTranslator;
+
+    public function __construct(MenuMemberRepository $menuMemberRepository, TargetTranslator $targetTranslator)
     {
         $this->menuMemberRepository = $menuMemberRepository;
+        $this->targetTranslator = $targetTranslator;
     }
 
     public function setParentId($id)
@@ -45,6 +50,11 @@ class MenuMemberListByGroupId implements \RecursiveIterator, Contract{
     public function setGroupId($groupId)
     {
         $this->groupId = $groupId;
+    }
+
+    public function setTranslateTarget($tr)
+    {
+        $this->translateTarget = $tr;
     }
 
     public function getMenuMembers($parentId = 0)
@@ -67,9 +77,10 @@ class MenuMemberListByGroupId implements \RecursiveIterator, Contract{
 
     public function getChildren()
     {
-        $children = new MenuMemberListByGroupId($this->menuMemberRepository);
+        $children = new MenuMemberListByGroupId($this->menuMemberRepository, $this->targetTranslator);
         $children->setParentId($this->current()->id);
         $children->setGroupId($this->groupId);
+        $children->setTranslateTarget($this->translateTarget);
         $children->setDataArrayKeyParent($this->current()->dataArrayKey);
         return $children;
     }
@@ -77,13 +88,12 @@ class MenuMemberListByGroupId implements \RecursiveIterator, Contract{
     public function current()
     {
         $data = $this->menuMembers[$this->counter];
-
+        $data->target = ($this->translateTarget) ? $this->targetTranslator->translate($data->target) : $data->target;
         if (!$this->dataArrayKeyParent) {
             $data->dataArrayKey = '[' . $this->counter . ']';
         } else {
             $data->dataArrayKey = $this->dataArrayKeyParent . '[children]['.$this->counter.']';
         }
-
 
         return $data;
     }

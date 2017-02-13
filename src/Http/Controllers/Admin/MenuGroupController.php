@@ -56,6 +56,7 @@ class MenuGroupController extends Controller{
         $menuMembers = $this->menuMemberListByGroupId;
         $menuMembers->setGroupId($groupId);
         $menuMembers->setParentId(0);
+
         $menuMembers = new MenuMemberUnorderedListHtml(
             $menuMembers
         );
@@ -109,8 +110,10 @@ class MenuGroupController extends Controller{
             abort(404);
         }
 
-        $this->menuMemberListByGroupId->setGroupId($menuGroup->id);
-        $menuMemberSelect = new \RecursiveIteratorIterator($this->menuMemberListByGroupId, \RecursiveIteratorIterator::SELF_FIRST);
+        $menuMemberSelectList = $this->menuMemberListByGroupId;
+        $menuMemberSelectList->setParentId(0);
+        $menuMemberSelectList->setGroupId($menuGroup->id);
+        $menuMemberSelect = new \RecursiveIteratorIterator($menuMemberSelectList, \RecursiveIteratorIterator::SELF_FIRST);
 
         $menuMember = $this->menuMemberRecursive($menuGroup->id, []);
 

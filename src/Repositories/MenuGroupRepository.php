@@ -27,6 +27,11 @@ class MenuGroupRepository extends BaseRepository implements MenuGroupContract {
         return $this->model->find($id);
     }
 
+    public function findMenuGroupByName($name)
+    {
+        return $this->model->whereRaw('name like ?', '%' . $name . '%')->first();
+    }
+
     public function addMenuGroup($name)
     {
         $data = $this->getNewModel();

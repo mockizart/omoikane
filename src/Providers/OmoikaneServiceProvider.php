@@ -85,6 +85,7 @@ class OmoikaneServiceProvider extends ServiceProvider{
          * Service bindings
          */
         $this->app->bind('Omoikane\Services\Category\Contracts\CategoryList', 'Omoikane\Services\Category\CategoryList');
+        $this->app->bind('Omoikane\Services\MenuMember\Contracts\TargetTranslator', 'Omoikane\Services\MenuMember\TargetTranslator');
     }
 
 }
