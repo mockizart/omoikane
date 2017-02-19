@@ -30,6 +30,14 @@ interface TagRepository extends BasePostRepository{
     public function findTagBySlug($slug);
 
     /**
+     * find most view tags default limit 10 tags
+     *
+     * @param int $limit
+     * @return mixed
+     */
+    public function getMostViewedTags($limit = 10);
+
+    /**
      * Find tags by Id
      *
      * @param array $id

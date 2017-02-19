@@ -48,11 +48,16 @@ class Article extends Model {
 
     public function category()
     {
-        return $this->hasMany('Omoikane\Models\ArticleCategory', 'article_id', 'id');
+        return $this->belongsToMany('Omoikane\Models\Category');
     }
+
+//    public function tag()
+//    {
+//        return $this->hasMany('Omoikane\Models\ArticleTag', 'article_id', 'id');
+//    }
 
     public function tag()
     {
-        return $this->hasMany('Omoikane\Models\ArticleTag', 'article_id', 'id');
+        return $this->belongsToMany('Omoikane\Models\Tag');
     }
 }

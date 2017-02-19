@@ -41,8 +41,13 @@ class Tag extends Model {
         ];
     }
 
-    public function user($orderBy = 'name', $order= 'desc')
+    public function user()
     {
-        return $this->belongsTo('Omoikane\Models\User', 'user_id', 'id')->orderBy($orderBy, $order);
+        return $this->belongsTo('Omoikane\Models\User', 'user_id', 'id');
+    }
+
+    public function article()
+    {
+        return $this->belongsToMany('Omoikane\Models\Article');
     }
 }

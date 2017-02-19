@@ -24,3 +24,11 @@ Route::group(['namespace' => 'Omoikane\Http\Controllers\Admin', 'middleware' => 
     Route::delete('blog/admin/category/delete/{id}', ['as' => 'deleteCategory', 'uses' => 'CategoryController@destroy']);
 
 });
+
+
+Route::group(['namespace' => 'Omoikane\Http\Controllers\Frontend'], function()
+{
+    Route::get('blog/category/', ['as' => 'frontendIndexCategory', 'uses' => 'CategoryController@index']);
+    Route::get('blog/category/{slug}', ['as' => 'frontendViewCategory', 'uses' => 'CategoryController@view']);
+    Route::get('blog/sitemap/category/', ['as' => 'frontendSitemapCategory', 'uses' => 'CategoryController@sitemap']);
+});

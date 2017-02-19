@@ -25,3 +25,13 @@ Route::group(['namespace' => 'Omoikane\Http\Controllers\Admin', 'middleware' => 
     Route::delete('blog/admin/article/delete/{id}', ['as' => 'deleteArticle', 'uses' => 'ArticleController@destroy']);
 
 });
+
+
+
+Route::group(['namespace' => 'Omoikane\Http\Controllers\Frontend'], function()
+{
+    Route::get('blog/article/', ['as' => 'frontendIndexArticle', 'uses' => 'ArticleController@index']);
+    Route::get('blog/article/{slug}', ['as' => 'frontendViewArticle', 'uses' => 'ArticleController@view']);
+    Route::get('blog/sitemap/article/', ['as' => 'frontendSitemapArticle', 'uses' => 'ArticleController@sitemap']);
+
+});

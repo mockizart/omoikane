@@ -27,6 +27,35 @@ class ArticleRepository extends BasePostRepository implements ArticleRepositoryC
         return $this->model->find($id);
     }
 
+    public function findArticleBySlug($slug)
+    {
+        $data = $this->findPostBySlug($slug);
+
+        return $data;
+    }
+
+    public function findArticlesByTagModel($tagModel, $limit)
+    {
+        if ($tagModel->article())
+        {
+            $data = $tagModel->article()->with(['user']);
+            return $data->paginate($limit);
+        }
+
+        return false;
+    }
+
+    public function findArticlesByCategoryModel($categoryModel, $limit)
+    {
+        if ($categoryModel->article())
+        {
+            $data = $categoryModel->article()->with(['user']);
+            return $data->paginate($limit);
+        }
+
+        return false;
+    }
+
     public function addArticle($userId, $title, $slug, $keyword, $body, $description)
     {
         $data = $this->getNewModel();

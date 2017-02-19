@@ -24,3 +24,12 @@ Route::group(['namespace' => 'Omoikane\Http\Controllers\Admin', 'middleware' => 
     Route::delete('blog/admin/tag/delete/{id}', ['as' => 'deleteTag', 'uses' => 'TagController@destroy']);
 
 });
+
+
+Route::group(['namespace' => 'Omoikane\Http\Controllers\Frontend'], function()
+{
+    Route::get('blog/tag/', ['as' => 'frontendIndexTag', 'uses' => 'TagController@index']);
+    Route::get('blog/tag/{slug}', ['as' => 'frontendViewTag', 'uses' => 'TagController@view']);
+    Route::get('blog/sitemap/tag/', ['as' => 'frontendSitemapTag', 'uses' => 'TagController@sitemap']);
+
+});

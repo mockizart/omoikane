@@ -21,16 +21,18 @@ abstract class BasePostRepository extends BaseRepository implements Contract {
 
     public function findPostBySlug($slug)
     {
-        return $this->findByField('slug', $slug)->first();
+        $data = $this->findByField('slug', $slug)->first();
+
+        return $data;
     }
 
     public function pagination($keyword, $path, $limit, $orderBy, $order)
     {
         $data = $this->model
-            ->whereRaw("title like ?", ["%".$keyword."%"]);
+            ->whereRaw("title like ?", ["%".$keyword."%"])->with(['user']);
 
         if ($orderBy=='name') {
-            $this->getModel()->user('name', $order);
+            $this->model->user('name', $order);
         } else {
             $data->orderBy($orderBy, $order);
         }

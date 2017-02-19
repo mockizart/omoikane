@@ -45,4 +45,10 @@ class Category extends Model {
     {
         return $this->belongsTo('Omoikane\Models\User', 'user_id', 'id')->orderBy($orderBy, $order);
     }
+
+
+    public function article()
+    {
+        return $this->belongsToMany('Omoikane\Models\Article');
+    }
 }

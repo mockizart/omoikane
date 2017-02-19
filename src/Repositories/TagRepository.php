@@ -17,6 +17,8 @@ class TagRepository extends BasePostRepository implements TagRepositoryContract{
 
     protected $model;
 
+    protected $findOne;
+
     public function __construct(Tag $tag)
     {
         $this->model = $tag;
@@ -24,12 +26,30 @@ class TagRepository extends BasePostRepository implements TagRepositoryContract{
 
     public function findTagById($id)
     {
-        return $this->findById($id);
+        $this->findOne = $this->findById($id);
+
+        return $this->findOne;
     }
 
     public function findTagBySlug($slug)
     {
-        return $this->findPostBySlug($slug);
+        $this->findOne =  $this->findPostBySlug($slug);
+
+        return ($this->findOne) ? $this->findOne->first() : false;
+    }
+
+    public function getMostViewedTags($limit = 10)
+    {
+        $data = $this->pagination('', '', $limit, 'view', 'desc');
+
+        return $data;
+    }
+
+    public function getMostPopulatedTags($limit = 10)
+    {
+        $data = $this->pagination('', '', $limit, 'article_counter', 'desc');
+
+        return $data;
     }
 
     public function findTagsById(Array $id, $getResult = false)
@@ -41,14 +61,16 @@ class TagRepository extends BasePostRepository implements TagRepositoryContract{
 
     public function addTag($userId, $title, $slug, $keyword = '', $body, $description = '')
     {
-        $this->model->user_id            = $userId;
-        $this->model->title              = $title;
-        $this->model->slug               = (empty($slug)) ? $title : $slug;
-        $this->model->meta_keyword       = $keyword;
-        $this->model->body               = $body;
-        $this->model->meta_description   = $description;
+        $data = $this->getNewModel();
+        
+        $data->user_id            = $userId;
+        $data->title              = $title;
+        $data->slug               = (empty($slug)) ? $title : $slug;
+        $data->meta_keyword       = $keyword;
+        $data->body               = $body;
+        $data->meta_description   = $description;
 
-        return ($this->model->save()) ? $this->model : false;
+        return ($data->save()) ? $data : false;
     }
 
     public function updateTag($tagId, $title = '', $slug = '', $keyword = '', $body = '', $description = '')
