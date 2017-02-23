@@ -14,23 +14,37 @@ class OmoikaneEventServiceProvider extends ServiceProvider
      */
     protected $listen = [
 
-        'Omoikane\Observers\Events\Page\PageCreated' => [],
-        'Omoikane\Observers\Events\Page\PageUpdated' => [],
+        'Omoikane\Observers\Events\Page\PageCreated' => [
+            'Omoikane\Observers\Listeners\Ping',
+        ],
+        'Omoikane\Observers\Events\Page\PageUpdated' => [
+            'Omoikane\Observers\Listeners\Ping',
+        ],
         'Omoikane\Observers\Events\Page\PageDeleted' => [],
 
-        'Omoikane\Observers\Events\Tag\TagCreated' => [],
-        'Omoikane\Observers\Events\Tag\TagUpdated' => [],
+        'Omoikane\Observers\Events\Tag\TagCreated' => [
+            'Omoikane\Observers\Listeners\Ping',
+        ],
+        'Omoikane\Observers\Events\Tag\TagUpdated' => [
+            'Omoikane\Observers\Listeners\Ping',
+        ],
         'Omoikane\Observers\Events\Tag\TagDeleted' => [],
 
-        'Omoikane\Observers\Events\Category\CategoryCreated' => [],
-        'Omoikane\Observers\Events\Category\CategoryUpdated' => [],
+        'Omoikane\Observers\Events\Category\CategoryCreated' => [
+            'Omoikane\Observers\Listeners\Ping',
+        ],
+        'Omoikane\Observers\Events\Category\CategoryUpdated' => [
+            'Omoikane\Observers\Listeners\Ping',
+        ],
         'Omoikane\Observers\Events\Category\CategoryDeleted' => [],
 
         'Omoikane\Observers\Events\Article\ArticleCreated' => [
+            'Omoikane\Observers\Listeners\Ping',
             'Omoikane\Observers\Listeners\ArticleTag\CreateArticleTag',
             'Omoikane\Observers\Listeners\ArticleCategory\CreateArticleCategory'
         ],
         'Omoikane\Observers\Events\Article\ArticleUpdated' => [
+            'Omoikane\Observers\Listeners\Ping',
             'Omoikane\Observers\Listeners\ArticleTag\UpdateArticleTag',
             'Omoikane\Observers\Listeners\ArticleCategory\UpdateArticleCategory'
         ],
