@@ -28,7 +28,7 @@ Route::group(['namespace' => 'Omoikane\Http\Controllers\Admin', 'middleware' => 
 
 
 
-Route::group(['namespace' => 'Omoikane\Http\Controllers\Frontend'], function()
+Route::group(['namespace' => 'Omoikane\Http\Controllers\Frontend', 'middleware' => ['web']], function()
 {
     Route::get('blog/article/', ['as' => 'frontendIndexArticle', 'uses' => 'ArticleController@index']);
     Route::get('blog/article/{slug}', ['as' => 'frontendViewArticle', 'uses' => 'ArticleController@view']);

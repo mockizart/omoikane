@@ -57,12 +57,12 @@ class TagController extends Controller{
             'orderLink' => $orderForLink
         ];
 
-        return view('omoikane::tag.index', $dataToView);
+        return view($this->pathView.'tag.index', $dataToView);
     }
 
     public function create()
     {
-        return view('omoikane::tag.create');
+        return view($this->pathView.'tag.create');
     }
 
     public function store(Request $request)
@@ -88,7 +88,7 @@ class TagController extends Controller{
             abort(404);
         }
 
-        return view('omoikane::tag.edit', ['tag' => $data]);
+        return view($this->pathView.'tag.edit', ['tag' => $data]);
     }
 
     public function update($id, Request $request)

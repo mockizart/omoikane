@@ -27,6 +27,11 @@ final class PageRepository extends BasePostRepository implements PageRepositoryC
         return $this->findById($id);
     }
 
+    public function findPageByIdWithRelations($id, array $with)
+    {
+        return $this->findByIdWithRelations($id, $with);
+    }
+
     public function findPageBySlug($slug)
     {
         return $this->findPostBySlug($slug);

@@ -53,6 +53,8 @@ class PageController extends BaseAdminController{
 
     public function index(Request $request)
     {
+        $a = $this->pageRepository->findPageByIdWithRelations(1, ['user']);
+        dump($a->user->name);
         $keyword = $request->input('q');
         $orderBy = $request->input('orderBy', 'created_at');
         $order = $request->input('order', 'desc');
@@ -66,12 +68,12 @@ class PageController extends BaseAdminController{
             'orderLink' => $orderForLink
         ];
 
-        return view('omoikane::page.index', $dataToView);
+        return view($this->pathView.'page.index', $dataToView);
     }
 
     public function create()
     {
-        return view('omoikane::page.create');
+        return view($this->pathView.'page.create');
     }
 
     public function store(Request $request)
@@ -101,7 +103,7 @@ class PageController extends BaseAdminController{
             abort(404);
         }
 
-        return view('omoikane::page.edit', $dataToView);
+        return view($this->pathView.'page.edit', $dataToView);
     }
 
     public function update($id, Request $request)

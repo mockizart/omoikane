@@ -21,6 +21,8 @@ class CategoryUnorderedListHtml extends RecursiveIteratorIterator implements Con
     // stores the previous depth
     private $_depth = 0;
 
+    protected $pathView;
+
     // stores the current iteration's depth
     private $_curDepth = 0;
 
@@ -33,6 +35,11 @@ class CategoryUnorderedListHtml extends RecursiveIteratorIterator implements Con
         parent::__construct($iterator, $mode, $flags);
     }
 
+    public function setView($path)
+    {
+        $this->pathView = $path;
+    }
+
     protected function view($category)
     {
         $data = [
@@ -41,7 +48,7 @@ class CategoryUnorderedListHtml extends RecursiveIteratorIterator implements Con
             'selected' => $this->checkedCategories
         ];
 
-        return View::make('omoikane::partial.category-tree', $data)->render();
+        return View::make($this->pathView, $data)->render();
     }
 
     public function setAvailableOptions($options)

@@ -10,5 +10,6 @@
 
 return [
     'pingomatic_title' => 'mockie',
-    'admin_layout' => 'default',
+    'admin_theme' => 'default',
+    'frontend_theme' => 'default'
 ];

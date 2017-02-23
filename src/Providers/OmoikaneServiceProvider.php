@@ -22,19 +22,20 @@ class OmoikaneServiceProvider extends ServiceProvider{
         include __DIR__.'/../routes/tag.php';
         include __DIR__.'/../routes/article.php';
         include __DIR__.'/../routes/menu_group.php';
+        include __DIR__.'/../routes/web.php';
+
+//        $this->publishes([
+//            __DIR__.'/../resources/assets' => public_path('/'),
+//        ], 'public');
 
         $this->publishes([
-            __DIR__.'/../resources/assets' => public_path('/'),
-        ], 'public');
-
-        $this->publishes([
-            __DIR__.'/../resources/themes/'.config('omoikane.admin_layout').'/views' =>
-                resource_path('views/themes/'.config('omoikane.admin_layout').'/'),
+            __DIR__.'/../resources/themes/admin/'.config('omoikane.admin_theme').'/views/layouts' =>
+                resource_path('views/themes/admin/'.config('omoikane.admin_theme').'/layouts'),
         ], 'themes_view');
 
         $this->publishes([
-            __DIR__.'/../resources/themes/'.config('omoikane.admin_layout').'/assets' =>
-                public_path('/'.config('omoikane.admin_layout').'/'),
+            __DIR__.'/../resources/themes/admin/'.config('omoikane.admin_theme').'/assets' =>
+                public_path('/themes/admin/'.config('omoikane.admin_theme')),
         ], 'themes_assets');
 
         $this->publishes([
@@ -42,7 +43,7 @@ class OmoikaneServiceProvider extends ServiceProvider{
         ]);
 
         /// view
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'omoikane');
+        $this->loadViewsFrom(__DIR__.'/../resources/themes', 'omoikane');
 
         // migrations
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');

@@ -15,11 +15,11 @@ use App\Http\Controllers\Controller;
 
 class BaseAdminController extends Controller{
 
-    public $layout;
+    public $pathView;
 
     public function __construct()
     {
-
+        $this->pathView = 'omoikane::admin.'.config('omoikane.admin_theme').'.views.';
     }
 
 }

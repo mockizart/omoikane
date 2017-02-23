@@ -36,6 +36,11 @@ class BaseRepository implements Contract{
         return $this->model->whereRaw($field . ' like ?', $value)->get();
     }
 
+    public function findByIdWithRelations($id, Array $with)
+    {
+        return $this->findById($id)->with($with)->first();
+    }
+
     public function delete(Array $id)
     {
         $data = $this->model->whereIn('id', $id);

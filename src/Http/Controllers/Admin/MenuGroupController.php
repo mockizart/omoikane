@@ -82,12 +82,12 @@ class MenuGroupController extends Controller{
             'orderLink' => $orderForLink
         ];
 
-        return view('omoikane::menu_group.index', $dataToView);
+        return view($this->pathView.'menu_group.index', $dataToView);
     }
 
     public function create()
     {
-        return view('omoikane::menu_group.create');
+        return view($this->pathView.'menu_group.create');
     }
 
     public function store(Request $request)
@@ -124,7 +124,7 @@ class MenuGroupController extends Controller{
             'menuMemberSelect' => $menuMemberSelect
         ];
 
-        return view('omoikane::menu_group.edit', $dataToView);
+        return view($this->pathView.'menu_group.edit', $dataToView);
     }
 
     public function update($id, Request $request)

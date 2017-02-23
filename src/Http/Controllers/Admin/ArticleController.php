@@ -21,7 +21,7 @@ use Omoikane\Services\Category\Contracts\CategoryList;
 use Omoikane\Services\Article\Contracts\PaginatedArticle;
 use Omoikane\Validations\Contracts\ArticleValidation;
 
-class ArticleController extends Controller{
+class ArticleController extends BaseAdminController{
 
     protected $articleRepository;
 
@@ -41,6 +41,7 @@ class ArticleController extends Controller{
         ArticleValidation $articleValidation
     )
     {
+        parent::__construct();
         $this->articleCrud = $articleCrud;
         $this->articleRepository = $articleRepository;
         $this->categoryList = $categoryList;
@@ -56,6 +57,7 @@ class ArticleController extends Controller{
             $categories
         );
 
+        $categories->setView($this->pathView.'partial.category-tree');
         $categories->setAvailableOptions(['checkbox']);
         $categories->setCheckedCategory($checked);
 
@@ -86,7 +88,7 @@ class ArticleController extends Controller{
             'orderLink' => $orderForLink
         ];
 
-        return view('omoikane::article.index', $dataToView);
+        return view($this->pathView.'article.index', $dataToView);
     }
 
     public function create()
@@ -95,7 +97,7 @@ class ArticleController extends Controller{
             'categories' => $this->categoryRecursive(),
         ];
 
-        return view('omoikane::article.create', $data);
+        return view($this->pathView.'article.create', $data);
     }
 
     public function store(Request $request)
@@ -131,7 +133,7 @@ class ArticleController extends Controller{
             'categories' => $categories
         ];
 
-        return view('omoikane::article.edit', $data);
+        return view($this->pathView.'article.edit', $data);
     }
 
     public function update($id, Request $request)

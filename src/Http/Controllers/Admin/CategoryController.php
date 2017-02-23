@@ -20,7 +20,7 @@ use Omoikane\Services\Category\Contracts\CategoryCrud;
 use Omoikane\Services\Category\Contracts\CategoryList;
 use Omoikane\Validations\Contracts\CategoryValidation;
 
-class CategoryController extends Controller{
+class CategoryController extends BaseAdminController{
 
     protected $categoryRepository;
 
@@ -37,6 +37,7 @@ class CategoryController extends Controller{
         CategoryValidation $categoryValidation
     )
     {
+        parent::__construct();
         $this->categoryRepository = $categoryRepository;
         $this->categoryList = $categoryList;
         $this->categoryCrud = $categoryCrud;
@@ -47,7 +48,7 @@ class CategoryController extends Controller{
     {
         $data['categories'] = $this->categoryRecursive();
 
-        return view('omoikane::category.index', ['data' => $data]);
+        return view($this->pathView.'category.index', ['data' => $data]);
     }
 
     protected function categoryRecursive($checked = [])
@@ -58,6 +59,7 @@ class CategoryController extends Controller{
             $categories
         );
 
+        $categories->setView($this->pathView.'partial.category-tree');
         $categories->setAvailableOptions(['delete', 'edit']);
         $categories->setCheckedCategory($checked);
 
@@ -80,7 +82,7 @@ class CategoryController extends Controller{
 
         $c = new \RecursiveIteratorIterator($categories, \RecursiveIteratorIterator::SELF_FIRST);
 
-        return view('omoikane::category.create', ['categories' => $c]);
+        return view($this->pathView.'category.create', ['categories' => $c]);
     }
 
     public function store(Request $request)
@@ -116,7 +118,7 @@ class CategoryController extends Controller{
             abort(404);
         }
 
-        return view('omoikane::category.edit', $data);
+        return view($this->pathView.'category.edit', $data);
     }
 
     public function update($id, Request $request)
