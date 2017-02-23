@@ -1,4 +1,4 @@
-@extends('two-column-left')
+@extends('themes.'.config('omoikane.admin_layout').'.admin.two-column-left')
 
 @section('content')
 
@@ -62,5 +62,5 @@
 @endsection
 
 @section('footer-js')
-    <script type="text/javascript" src="{{ URL::to('omoikane/js/page.js') }}"></script>
+    <script type="text/javascript" src="{{ URL::to('default/js/page.js') }}"></script>
     @endsection

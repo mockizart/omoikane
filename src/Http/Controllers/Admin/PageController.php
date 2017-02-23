@@ -17,7 +17,7 @@ use Omoikane\Services\Page\Contracts\PageCrud;
 use Omoikane\Services\Page\Contracts\PaginatedPage;
 use Omoikane\Validations\Contracts\PageValidation;
 
-class PageController extends Controller{
+class PageController extends BaseAdminController{
 
     protected $pageRepository;
 
@@ -34,6 +34,8 @@ class PageController extends Controller{
         PageValidation $pageValidation
     )
     {
+        parent::__construct();
+
         $this->pageRepository = $pageRepository;
         $this->paginatedPage = $paginatedPage;
         $this->pageCrud = $pageCrud;

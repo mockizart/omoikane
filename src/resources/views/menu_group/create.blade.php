@@ -1,4 +1,4 @@
-@extends('two-column-left')
+@extends('themes.'.config('omoikane.admin_layout').'.admin.two-column-left')
 
 @section('content')
 
@@ -82,5 +82,5 @@
 @section('footer-js')
     <script type="text/javascript" src="{{ URL::asset('omoikane/typeahead.js/bloodhound.js') }}"></script>
     <script type="text/javascript" src="{{ URL::asset('omoikane/typeahead.js/typeahead.bundle.js') }}"></script>
-    <script type="text/javascript" src="{{ URL::to('omoikane/js/menu-group-menu-member.js') }}"></script>
+    <script type="text/javascript" src="{{ URL::to('default/js/menu-group-menu-member.js') }}"></script>
 @endsection

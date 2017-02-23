@@ -1,8 +1,8 @@
-@extends('three-column')
+@extends('themes.'.config('omoikane.admin_layout').'.admin.three-column')
 
 @section('header-assets')
-    <link href="{{ URL::to('omoikane/css/article.css') }}" rel="stylesheet">
-    <script type="text/javascript" src="{{ URL::to('omoikane/ckeditor/ckeditor.js') }}"></script>
+    <link href="{{ URL::to('default/css/article.css') }}" rel="stylesheet">
+    <script type="text/javascript" src="{{ URL::to('default/ckeditor/ckeditor.js') }}"></script>
 @endsection
 
 @section('content')

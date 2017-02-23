@@ -1,12 +1,12 @@
-@extends('two-column-left')
+@extends('themes.'.config('omoikane.admin_layout').'.admin.two-column-left')
 
 @section('header-assets')
-    <script type="text/javascript" src="{{ URL::to('omoikane/ckeditor/ckeditor.js') }}"></script>
+    <script type="text/javascript" src="{{ URL::to('default/ckeditor/ckeditor.js') }}"></script>
 @endsection
 
 @section('content')
 
-    <h3>Sign up</h3>
+    <h3>Edit page</h3>
 
     @if (count($errors) > 0)
         <div class="alert alert-danger">

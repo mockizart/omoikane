@@ -32,6 +32,11 @@ final class PageRepository extends BasePostRepository implements PageRepositoryC
         return $this->findPostBySlug($slug);
     }
 
+    public function findPublishedPages()
+    {
+        return $this->model->where('publish', true)->get();
+    }
+
     public function addPage($userId, $status = 0, $title, $slug, $keyword = '', $body, $description = '')
     {
         $data = $this->getNewModel();

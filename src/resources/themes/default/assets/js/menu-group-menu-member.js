@@ -1,44 +1,55 @@
 /**
- * Created by mockie on 10/02/17.
+ * Created by mockie on 11/02/17.
  */
 
-buttonRemoveMenuMember = jQuery('.remove-menu-member');
 
-    function buttonPressed() {
+function initializeMenuVariables() {
+    buttonRemoveMenuMember      = jQuery('.remove-menu-member');
+    buttonEditMenuMember        = jQuery('.edit-menu-member');
+    addMenuButton               = jQuery('#add-menu-button');
+    editMenuButton              = jQuery('#edit-menu-button');
+    buttonSaveMenuMember        = jQuery('#edit-menu-member');
+    mockMenuParent              = jQuery('#menu-select-parent');
+    mockMenuTitle               = jQuery('#menu-title');
+    menuTextTarget              = jQuery('#menu-text-target');
+    mockMenuSelectType          = jQuery('#menu-select-type');
+    buttonAddMenuMember         = jQuery('#add-menu-member');
+}
 
-        buttonEditMenuMember = jQuery('.edit-menu-member');
-        console.log(jQuery(this).parent().attr('id'));
 
-        buttonRemoveMenuMember.click(function (e) {
-            e.preventDefault();
-            jQuery("#menu-select-parent option[value='"+jQuery(this).parent().attr('id')+"']").each(function() {
-                $(this).remove();
-            });
+function buttonPressed() {
 
-            jQuery(this).parent().remove();
-        });
+    initializeMenuVariables();
 
-        buttonEditMenuMember.click(function (e) {
-            e.preventDefault();
-            menuId = jQuery(this).attr('data-menu-id');
-            idForUpdateSelect = jQuery(this).parent('li').attr('id');
+    buttonRemoveMenuMember.click(function (e) {
+        e.preventDefault();
+        mockMenuParent.find("option[value='"+jQuery(this).parent().attr('id')+"']").remove();
 
-            title = jQuery('input[name="' + menuId + '[title]"]');
-            targetMenu = jQuery('input[name="' + menuId + '[target]"]');
-            menuType = jQuery('input[name="' + menuId + '[type]"]');
+        jQuery(this).parent().remove();
+    });
 
-            jQuery('#add-menu-button').hide(200);
-            jQuery('#edit-menu-button').show(200);
+    buttonEditMenuMember.click(function (e) {
+        e.preventDefault();
 
-            jQuery('#edit-menu-member').attr('data-edit-id', menuId);
-            jQuery('#edit-menu-member').attr('data-id-for-update-select', idForUpdateSelect); // used to update the menu text in select
+        menuId = jQuery(this).attr('data-menu-id');
+        idForUpdateSelect = jQuery(this).parent('li').attr('id');
 
-            jQuery('#menu-title').val(title.val());
-            jQuery('#menu-text-target').val(targetMenu.val());
-            jQuery('#menu-select-type').val(menuType.val());
-        })
+        title = jQuery('input[name="' + menuId + '[title]"]');
+        targetMenu = jQuery('input[name="' + menuId + '[target]"]');
+        menuType = jQuery('input[name="' + menuId + '[type]"]');
 
-    }
+        addMenuButton.hide(200);
+        editMenuButton.show(200);
+
+        buttonSaveMenuMember.attr('data-edit-id', menuId);
+        buttonSaveMenuMember.attr('data-id-for-update-select', idForUpdateSelect); // used to update the menu text in select
+
+        mockMenuTitle.val(title.val());
+        menuTextTarget.val(targetMenu.val());
+        mockMenuSelectType.val(menuType.val());
+    })
+
+}
 
 var buttonObserver = new MutationObserver(function (mutationRecords, observer) {
     mutationRecords.forEach(function (mutation) {
@@ -61,14 +72,12 @@ var config = {
 //note this observe method
 buttonObserver.observe(target, config);
 
-function targetAutoComplete() {
-
-    menuTextTarget      = jQuery('#menu-text-target');
+function targetAutoComplete(url, value) {
 
     // Set the Options for "Bloodhound" suggestion engine
     var engine = new Bloodhound({
         remote: {
-            url: '/blog/admin/tag/autocomplete?keyword=%QUERY%',
+            url: url,
             wildcard: '%QUERY%'
         },
         datumTokenizer: Bloodhound.tokenizers.whitespace('title'),
@@ -90,43 +99,18 @@ function targetAutoComplete() {
             empty: [
                 '<div class="list-group search-results-dropdown"><div class="list-group-item">Nothing found.</div></div>'
             ],
-            header: [
-                '<div class="list-group search-results-dropdown">'
-            ],
             suggestion: function (data) {
-                return '<div class="list-group-item">' + data.title + '- @' + data.title + '</div>'
+                return '<div class="list-group-item">' + data.title + '</div>';
             }
         }
     });
 
-    mockMenuSelectType  = jQuery('#menu-select-type');
     menuTextTarget.bind('typeahead:select', function (ev, suggestion) {
-
-        if (mockMenuSelectType.val()==1) {
-            typeaheadValue = 'route(' + suggestion.id + ')';
-        } else if(mockMenuSelectType==2) {
-            typeaheadValue = 'page(' + suggestion.id + ')';
-        } else if(mockMenuSelectType==3) {
-            typeaheadValue = 'category(' + suggestion.id + ')';
-        } else if(mockMenuSelectType==4) {
-            typeaheadValue = 'tag(' + suggestion.id + ')';
-        } else if(mockMenuSelectType==5) {
-            typeaheadValue = 'article(' + suggestion.id + ')';
-        }
-        //
-        // if ($('#'+suggestion.id+'tag').length==0) {
-        //
-        //     secretTag.html(secretTag.html() +
-        //         '<span class="tag tag-primary">' +
-        //         '<input type="checkbox" name="tag[]" id="'+suggestion.id+'tag" class="checked-tag" value="' + suggestion.id + '" CHECKED/> '
-        //         + suggestion.title
-        //         + '</span>'
-        //     );
-        //
-        // }
-
-        menuTextTarget.typeahead('val', typeaheadValue);
+        theValue = value.replace(/{id}/g, suggestion.id);
+        theValue = theValue.replace(/{title}/g, suggestion.title);
+        menuTextTarget.typeahead('val', theValue);
     });
+
 
 }
 
@@ -134,21 +118,50 @@ jQuery(document).ready(function () {
 
     buttonPressed();
 
-    buttonAddMenuMember = jQuery('#add-menu-member');
-    buttonSaveMenuMember = jQuery('#edit-menu-member');
-
-    mockMenuTitle       = jQuery('#menu-title');
-    mockMenuSelectType  = jQuery('#menu-select-type');
-    mockMenuParent      = jQuery('#menu-select-parent');
-    menuTextTarget      = jQuery('#menu-text-target');
-
     mockMenuSelectType.change(function () {
+        menuTextTarget.typeahead('destroy');
+
         $typeToText = ['Http://example.com', 'Route name', 'Page', 'Category', 'Tag', 'Article'];
         menuTextTarget.val('');
         menuTextTarget.attr('placeholder', $typeToText[jQuery(this).val()]);
-        targetAutoComplete();
+
+        if (jQuery(this).val()==0) {
+
+            menuTextTarget.val('http://');
+
+        } else if (jQuery(this).val()==1) {
+
+            menuTextTarget.val('route()');
+
+        } else if(jQuery(this).val()==2) {
+            typeaheadValue = 'page({id}, {title})';
+            targetURL = '/blog/admin/page/autocomplete?keyword=%QUERY%';
+
+            targetAutoComplete(targetURL, typeaheadValue);
+
+        } else if(jQuery(this).val()==3) {
+            typeaheadValue = 'category({id}, {title})';
+            targetURL = '/blog/admin/category/autocomplete?keyword=%QUERY%';
+
+            targetAutoComplete(targetURL, typeaheadValue);
+
+        } else if(jQuery(this).val()==4) {
+            typeaheadValue = 'tag({id}, {title})';
+            targetURL = '/blog/admin/tag/autocomplete?keyword=%QUERY%';
+
+            targetAutoComplete(targetURL, typeaheadValue);
+
+        } else if(jQuery(this).val()==5) {
+            typeaheadValue = 'article({id}, {title})';
+            targetURL = '/blog/admin/article/autocomplete?keyword=%QUERY%';
+
+            targetAutoComplete(targetURL, typeaheadValue);
+
+        }
+
+
     });
-    
+
     buttonSaveMenuMember.click(function (e) {
         e.preventDefault();
         dataEditId = jQuery(this).attr('data-edit-id');
@@ -156,12 +169,11 @@ jQuery(document).ready(function () {
         jQuery('input[name="' + dataEditId + '[title]"]').val(mockMenuTitle.val());
         jQuery('input[name="' + dataEditId + '[target]"]').val(menuTextTarget.val());
         jQuery('input[name="' + dataEditId + '[type]"]').val(mockMenuSelectType.find(":selected").val());
-        jQuery('span[data-id="' + dataEditId+'"]').text(mockMenuTitle.val());
-        jQuery('#menu-select-parent').find('option[value="' + idForUpdateSelect +'"]').text(mockMenuTitle.val());
-        console.log(idForUpdateSelect);
+        jQuery('span[data-id="' + dataEditId+'"]').text(mockMenuTitle.val() + ' - '+  menuTextTarget.val());
+        mockMenuParent.find('option[value="' + idForUpdateSelect +'"]').text(mockMenuTitle.val());
 
-        jQuery('#add-menu-button').show(200);
-        jQuery('#edit-menu-button').hide(200);
+        addMenuButton.show(200);
+        editMenuButton.hide(200);
     });
 
     buttonAddMenuMember.click(function () {
@@ -192,7 +204,7 @@ jQuery(document).ready(function () {
             '<a href="#" data-menu-id="menu-members' + dataArrayKey +'" ' +
             'class="glyphicon glyphicon-edit edit-menu-member" aria-hidden="true"></a> ' +
 
-            '<span data-id="menu-members'+ dataArrayKey +'">' + mockMenuTitle.val() + '</span>' +
+            '<span data-id="menu-members'+ dataArrayKey +'">' + mockMenuTitle.val() + ' - ' + menuTextTarget.val() +'</span>' +
 
             '<input type="hidden" name="menu-members' + dataArrayKey +'[title]" ' +
             'value="' + mockMenuTitle.val() +'" />'+
@@ -207,7 +219,8 @@ jQuery(document).ready(function () {
         );
 
         mockMenuParent.append(
-            '<option value="'+ totalAddedMembers.length +'">' + mockMenuTitle.val() + '</option>'
+            '<option value="'+ totalAddedMembers.length +'">' +
+            mockMenuTitle.val() + '</option>'
         );
     });
 

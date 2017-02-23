@@ -1,8 +1,8 @@
-@extends('two-column-left')
+@extends('themes.'.config('omoikane.admin_layout').'.admin.two-column-left')
 
 
 @section('header-assets')
-    <link href="{{ URL::to('omoikane/css/category-tree.css') }}" rel="stylesheet">
+    <link href="{{ URL::to('default/css/category-tree.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -29,5 +29,5 @@
 
 
 @section('footer-js')
-    <script type="text/javascript" src="{{ URL::to('omoikane/js/category.js') }}"></script>
+    <script type="text/javascript" src="{{ URL::to('default/js/category.js') }}"></script>
 @endsection
